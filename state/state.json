@@ -1,7 +1,7 @@
 {
-  "coke": 10,
-  "pepsi": 10,
-  "dew": 10,
-  "coins": 100,
-  "cash": 200
+  "coke_count": 10,
+  "pepsi_count": 10,
+  "dew_count": 10,
+  "coins_count": 100,
+  "cash_count": 200
 }

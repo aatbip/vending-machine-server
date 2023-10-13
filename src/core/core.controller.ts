@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { IConfig, IState } from 'types/interfaces';
 import { CoreService } from './core.service';
 import { CreateCoreDto } from './dto/create-core.dto';
 
@@ -11,18 +12,9 @@ export class CoreController {
     return this.coreService.create(createCoreDto);
   }
 
-  @Get()
-  findAll() {
-    return this.coreService.findAll();
+  @Get("initial-state")
+  getInitialState(): { state: IState, config: IConfig } {
+    return this.coreService.getInitialState();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coreService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.coreService.remove(+id);
-  }
 }
