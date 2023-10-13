@@ -1,20 +1,19 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { IConfig, IState } from 'types/interfaces';
 import { CoreService } from './core.service';
-import { CreateCoreDto } from './dto/create-core.dto';
+import { PurchaseDto } from './dto/purchase.dto';
 
 @Controller('core')
 export class CoreController {
   constructor(private readonly coreService: CoreService) { }
 
-  @Post()
-  create(@Body() createCoreDto: CreateCoreDto) {
-    return this.coreService.create(createCoreDto);
+  @Post('purchase')
+  async purchase(@Body() purchaseDto: PurchaseDto) {
+    return await this.coreService.purchase(purchaseDto);
   }
 
   @Get("initial-state")
-  getInitialState(): { state: IState, config: IConfig } {
-    return this.coreService.getInitialState();
+  async getInitialState(): Promise<{ state: IState, config: IConfig }> {
+    return await this.coreService.getInitialState();
   }
-
 }
