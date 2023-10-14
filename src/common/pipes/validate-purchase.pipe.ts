@@ -3,8 +3,8 @@ import { PurchaseDto } from 'src/core/dto/purchase.dto';
 import * as config from "../../../state/config.json";
 
 @Injectable()
-export class ValidateCostPipe implements PipeTransform {
-  transform(purchaseDto: PurchaseDto, metadata: ArgumentMetadata) {
+export class ValidatePurchasePipe implements PipeTransform {
+  transform(purchaseDto: PurchaseDto, _: any) {
     const totalCost = purchaseDto.coke_count * config.coke_price
       + purchaseDto.dew_count * config.dew_price
       + purchaseDto.pepsi_count * config.pepsi_price;

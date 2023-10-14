@@ -24,11 +24,13 @@ export class CoreService {
 
     const state = await this.readStateFile()
 
+    let change = purchaseDto.cash_count + purchaseDto.coin_count - totalCost
+
     const updatedState: IState = {
       coke_count: state.coke_count - purchaseDto.coke_count,
       pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
       dew_count: state.dew_count - purchaseDto.dew_count,
-      coins_count: state.coins_count + purchaseDto.coin_count,
+      coins_count: state.coins_count + purchaseDto.coin_count - change, //assuming change is always returned in coins.
       cash_count: state.cash_count + purchaseDto.cash_count
     }
 
@@ -36,7 +38,7 @@ export class CoreService {
 
     return {
       updatedState,
-      change: purchaseDto.cash_count + purchaseDto.coin_count - totalCost
+      change
     };
   }
 

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UseFilters, NotFoundException, HttpException, UsePipes } from '@nestjs/common';
 import { NotFoundExceptionFilter } from 'src/common/filters/not-found.exception';
-import { ValidateCostPipe } from 'src/common/pipes/validate-cost.pipe';
-import { IConfig, IState, IValidateCostResponse } from 'types/interfaces';
+import { ValidatePurchasePipe } from 'src/common/pipes/validate-purchase.pipe';
+import { IConfig, IState, IValidatePurchaseResponse } from 'types/interfaces';
 import { CoreService } from './core.service';
 
 @Controller('core')
@@ -14,19 +14,18 @@ export class CoreController {
     try {
       return await this.coreService.getInitialState();
     } catch (e) {
-      throw new NotFoundException("File Not Found!", { cause: e.message })
+      throw new NotFoundException("State Files Not Found!", { cause: e.message })
     }
   }
 
   @Post('purchase')
-  @UsePipes(new ValidateCostPipe())
-  async purchase(@Body() validateCostResponse: IValidateCostResponse) {
+  @UsePipes(new ValidatePurchasePipe())
+  async purchase(@Body() validatePurchaseResponse: IValidatePurchaseResponse) {
     try {
-      const { purchaseDto, totalCost, totalInputMoney } = validateCostResponse;
+      const { purchaseDto, totalCost, totalInputMoney } = validatePurchaseResponse;
       return await this.coreService.purchase(purchaseDto, totalCost, totalInputMoney);
     } catch (e) {
-      throw new NotFoundException("File Not Found!", { cause: e.message })
+      throw new NotFoundException("State Files Not Found!", { cause: e.message })
     }
   }
-
 }

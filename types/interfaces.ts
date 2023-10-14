@@ -14,7 +14,7 @@ export interface IConfig {
   dew_price: number;
 }
 
-export interface IValidateCostResponse {
+export interface IValidatePurchaseResponse {
   purchaseDto: PurchaseDto;
   totalCost: number;
   totalInputMoney: number;
