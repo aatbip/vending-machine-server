@@ -15,12 +15,9 @@ export class CoreService {
   }
 
   async getInitialState(): Promise<{ state: IState, config: IConfig }> {
-    try {
-      const state = JSON.parse(await fs.readFile(this.stateFilePath, 'utf-8'));
-      return { state, config }
-    } catch (e) {
-      console.log(e)
-    }
+    const state = await this.readStateFile()
+
+    return { state, config }
   }
 
   async purchase(purchaseDto: PurchaseDto) {
@@ -30,7 +27,7 @@ export class CoreService {
         + purchaseDto.dew_count * config.dew_price
         + purchaseDto.pepsi_count * config.pepsi_price;
 
-      const state = JSON.parse(await fs.readFile(this.stateFilePath, 'utf-8'));
+      const state = await this.readStateFile()
 
       const updatedState: IState = {
         coke_count: state.coke_count - purchaseDto.coke_count,
@@ -46,6 +43,10 @@ export class CoreService {
     } catch (e) {
       console.log("hi", e)
     }
+  }
+
+  async readStateFile(): Promise<IState> {
+    return JSON.parse(await fs.readFile(this.stateFilePath, 'utf-8'));
   }
 }
 

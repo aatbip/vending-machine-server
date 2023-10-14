@@ -18,5 +18,16 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    //this is included so that yarn start or yarn start:dev scripts can copy the state files.
+    //for yarn build script, a custom copy-files.js script has been written to copy state files.
+    "state/**/*.json"
+  ],
+  "files": [
+    "state/state.json",
+    "state/config.json",
+    "state/state_backup.json"
+  ]
 }
