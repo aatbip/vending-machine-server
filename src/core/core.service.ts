@@ -27,14 +27,14 @@ export class CoreService {
 
     const state = await this.fileSystemApiService.readFile(this.stateFilePath);
 
-    let change = purchaseDto.cash_count + purchaseDto.coin_count - totalCost
+    let change = totalInputMoney - totalCost
 
     const updatedState: IState = {
       coke_count: state.coke_count - purchaseDto.coke_count,
       pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
       dew_count: state.dew_count - purchaseDto.dew_count,
-      coins_count: state.coins_count + purchaseDto.coin_count - change, //assuming change is always returned in coins.
-      cash_count: state.cash_count + purchaseDto.cash_count
+      coins_count: state.coins_count + purchaseDto.coin_count - (purchaseDto.coin_count > purchaseDto.cash_count ? change : 0),
+      cash_count: state.cash_count + purchaseDto.cash_count - (purchaseDto.cash_count > purchaseDto.coin_count ? change : 0)
     }
 
     await this.fileSystemApiService.writeFile(this.stateFilePath, JSON.stringify(updatedState))
@@ -55,8 +55,8 @@ export class CoreService {
       coke_count: state.coke_count + refundDto.coke_count,
       pepsi_count: state.pepsi_count + refundDto.pepsi_count,
       dew_count: state.dew_count + refundDto.dew_count,
-      coins_count: state.coins_count,
-      cash_count: state.cash_count - totalCost //assuming refund is always given in cash
+      coins_count: state.coins_count - (state.coins_count > state.cash_count ? totalCost : 0),
+      cash_count: state.cash_count - (state.cash_count > state.coins_count ? totalCost : 0)
     }
 
     await this.fileSystemApiService.writeFile(this.stateFilePath, JSON.stringify(updatedState))
