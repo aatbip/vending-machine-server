@@ -21,8 +21,12 @@
   },
   "include": [
     "src/**/*.ts",
-    //this is included so that yarn start or yarn start:dev scripts can copy the state files.
-    //for yarn build script, a custom copy-files.js script has been written to copy state files.
+    /*
+    This is included so that yarn start or yarn start:dev scripts can copy the 
+    state files inside dist directory during development and watch modes.
+    For yarn build script and during production, a custom copy-files.js script 
+    has been written to copy state files inside dist directory.
+    */
     "state/**/*.json"
   ],
   "files": [

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import * as config from "../../state/config.json";
 import { IConfig, IState } from 'types/interfaces';
 import { PurchaseDto } from './dto/purchase.dto';
@@ -20,29 +20,24 @@ export class CoreService {
     return { state, config }
   }
 
-  async purchase(purchaseDto: PurchaseDto) {
-    try {
+  async purchase(purchaseDto: PurchaseDto, totalCost: number, totalInputMoney: number) {
 
-      const totalCost = purchaseDto.coke_count * config.coke_price
-        + purchaseDto.dew_count * config.dew_price
-        + purchaseDto.pepsi_count * config.pepsi_price;
+    const state = await this.readStateFile()
 
-      const state = await this.readStateFile()
-
-      const updatedState: IState = {
-        coke_count: state.coke_count - purchaseDto.coke_count,
-        pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
-        dew_count: state.dew_count - purchaseDto.dew_count,
-        coins_count: state.coins_count + purchaseDto.coin_count,
-        cash_count: state.cash_count + purchaseDto.cash_count
-      }
-
-      await fs.writeFile(this.stateFilePath, JSON.stringify(updatedState))
-
-      return updatedState;
-    } catch (e) {
-      console.log("hi", e)
+    const updatedState: IState = {
+      coke_count: state.coke_count - purchaseDto.coke_count,
+      pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
+      dew_count: state.dew_count - purchaseDto.dew_count,
+      coins_count: state.coins_count + purchaseDto.coin_count,
+      cash_count: state.cash_count + purchaseDto.cash_count
     }
+
+    await fs.writeFile(this.stateFilePath, JSON.stringify(updatedState))
+
+    return {
+      updatedState,
+      change: purchaseDto.cash_count + purchaseDto.coin_count - totalCost
+    };
   }
 
   async readStateFile(): Promise<IState> {

@@ -1,3 +1,5 @@
+import { PurchaseDto } from "src/core/dto/purchase.dto";
+
 export interface IState {
   coke_count: number;
   pepsi_count: number;
@@ -10,4 +12,10 @@ export interface IConfig {
   coke_price: number;
   pepsi_price: number;
   dew_price: number;
+}
+
+export interface IValidateCostResponse {
+  purchaseDto: PurchaseDto;
+  totalCost: number;
+  totalInputMoney: number;
 }
