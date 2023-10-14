@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { CoreService } from './core.service';
 import { CoreController } from './core.controller';
+import { FileSystemApiService } from 'src/fileSystemApi/fileSystemApi.service';
+import { FileSystemApiModule } from 'src/fileSystemApi/fileSystemApi.module';
 
 @Module({
+  imports: [FileSystemApiModule],
   controllers: [CoreController],
-  providers: [CoreService]
+  providers: [CoreService],
 })
-export class CoreModule {}
+export class CoreModule { }
