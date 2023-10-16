@@ -37,16 +37,16 @@ export class CoreService {
         coke_count: state.coke_count - purchaseDto.coke_count,
         pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
         dew_count: state.dew_count - purchaseDto.dew_count,
-        coins_count: state.coins_count + (purchaseDto.coin_count - change),
-        cash_count: state.cash_count + purchaseDto.cash_count
+        coins_count: state.coins_count + totalCost,
+        cash_count: state.cash_count
       }
     } else if (purchaseDto.coin_count === 0 || purchaseDto.cash_count > purchaseDto.coin_count) {
       updatedState = {
         coke_count: state.coke_count - purchaseDto.coke_count,
         pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
         dew_count: state.dew_count - purchaseDto.dew_count,
-        coins_count: state.coins_count + purchaseDto.coin_count,
-        cash_count: state.cash_count + purchaseDto.cash_count - change
+        coins_count: state.coins_count,
+        cash_count: state.cash_count + totalCost
       }
     } else if (purchaseDto.coin_count === purchaseDto.cash_count) {
       updatedState = {
@@ -59,7 +59,6 @@ export class CoreService {
     }
 
     await this.fileSystemApiService.writeFile(this.stateFilePath, JSON.stringify(updatedState))
-
 
     return {
       updatedState,
