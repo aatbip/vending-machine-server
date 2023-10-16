@@ -4,7 +4,8 @@ import { IConfig, IState } from 'types/interfaces';
 import { PurchaseDto } from './dto/purchase.dto';
 import * as path from 'node:path';
 import { RefundDto } from './dto/refund.dto';
-import { FileSystemApiService } from 'src/fileSystemApi/fileSystemApi.service';
+// import { FileSystemApiService } from 'src/fileSystemApi/fileSystemApi.service';
+import { FileSystemApiService } from "./../../src/fileSystemApi/fileSystemApi.service"
 
 @Injectable()
 export class CoreService {
