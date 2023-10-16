@@ -31,6 +31,7 @@
   ],
   "files": [
     "state/state.json",
+    "state/state.test.json",
     "state/config.json",
     "state/state_backup.json"
   ]

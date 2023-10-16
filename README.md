@@ -37,3 +37,7 @@ The application doesn't rely on any database systems. All the application state 
 ```
 
 `copy-files.js` file in the root directory has required scripts to copy the state files in the `dist` directory at the build time.
+
+## How to run test?
+
+Test cases are written for methods under `core.service.ts` file in the `core.service.spec.ts` file. To run the test cases in watch mode, use `yarn run test:watch` command.
