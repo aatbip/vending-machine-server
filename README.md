@@ -22,6 +22,8 @@ This repository contains the serverside logic and APIs for the vending machine f
     2. fileSystemApi module
         - Since the application doesn't rely on any database systems, but stores all the essential states in the file ([details here](#application-state)), this module implements methods to write file and read file using node `fs` module.
 
+- The core module makes use of `ValidatePurchasePipe` and `ValidateRefundPipe` to validate the purchase and return logics.
+
 ## Application State
 
 The application doesn't rely on any database systems. All the application state is defined in `state` folder. The initial app state looks like below:

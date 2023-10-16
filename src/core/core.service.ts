@@ -32,21 +32,29 @@ export class CoreService {
 
     let updatedState: IState | undefined = undefined;
 
-    if (state.coins_count === state.cash_count) {
+    if (purchaseDto.cash_count === 0 || purchaseDto.coin_count > purchaseDto.cash_count) {
       updatedState = {
         coke_count: state.coke_count - purchaseDto.coke_count,
         pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
         dew_count: state.dew_count - purchaseDto.dew_count,
-        coins_count: state.coins_count + purchaseDto.coin_count - change,
+        coins_count: state.coins_count + (purchaseDto.coin_count - change),
         cash_count: state.cash_count + purchaseDto.cash_count
       }
-    } else {
+    } else if (purchaseDto.coin_count === 0 || purchaseDto.cash_count > purchaseDto.coin_count) {
       updatedState = {
         coke_count: state.coke_count - purchaseDto.coke_count,
         pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
         dew_count: state.dew_count - purchaseDto.dew_count,
-        coins_count: state.coins_count + purchaseDto.coin_count - (state.coins_count > state.cash_count ? change : 0),
-        cash_count: state.cash_count + purchaseDto.cash_count - (state.cash_count > state.coins_count ? change : 0)
+        coins_count: state.coins_count + purchaseDto.coin_count,
+        cash_count: state.cash_count + purchaseDto.cash_count - change
+      }
+    } else if (purchaseDto.coin_count === purchaseDto.cash_count) {
+      updatedState = {
+        coke_count: state.coke_count - purchaseDto.coke_count,
+        pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
+        dew_count: state.dew_count - purchaseDto.dew_count,
+        coins_count: state.coins_count + (purchaseDto.coin_count - change / 2),
+        cash_count: state.cash_count + (purchaseDto.cash_count - change / 2)
       }
     }
 
