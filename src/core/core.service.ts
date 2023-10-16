@@ -30,12 +30,24 @@ export class CoreService {
 
     let change = totalInputMoney - totalCost
 
-    const updatedState: IState = {
-      coke_count: state.coke_count - purchaseDto.coke_count,
-      pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
-      dew_count: state.dew_count - purchaseDto.dew_count,
-      coins_count: state.coins_count + purchaseDto.coin_count - (purchaseDto.coin_count > purchaseDto.cash_count ? change : 0),
-      cash_count: state.cash_count + purchaseDto.cash_count - (purchaseDto.cash_count > purchaseDto.coin_count ? change : 0)
+    let updatedState: IState | undefined = undefined;
+
+    if (state.coins_count === state.cash_count) {
+      updatedState = {
+        coke_count: state.coke_count - purchaseDto.coke_count,
+        pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
+        dew_count: state.dew_count - purchaseDto.dew_count,
+        coins_count: state.coins_count + purchaseDto.coin_count - change,
+        cash_count: state.cash_count + purchaseDto.cash_count
+      }
+    } else {
+      updatedState = {
+        coke_count: state.coke_count - purchaseDto.coke_count,
+        pepsi_count: state.pepsi_count - purchaseDto.pepsi_count,
+        dew_count: state.dew_count - purchaseDto.dew_count,
+        coins_count: state.coins_count + purchaseDto.coin_count - (state.coins_count > state.cash_count ? change : 0),
+        cash_count: state.cash_count + purchaseDto.cash_count - (state.cash_count > state.coins_count ? change : 0)
+      }
     }
 
     await this.fileSystemApiService.writeFile(this.stateFilePath, JSON.stringify(updatedState))
